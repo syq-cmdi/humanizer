@@ -1,193 +1,255 @@
-# Humanizer
+# Humanizer-Academic
 
-A skill for Claude Code and OpenCode that removes signs of AI-generated writing from text, making it sound more natural and human.
+Humanizer-Academic is a Claude Code / OpenCode skill for revising academic drafts. It improves clarity, precision, scholarly tone, citation discipline, and authorial voice while preserving scientific meaning, technical terms, LaTeX equations, statistical results, references, and manuscript structure.
+
+It is designed for academic papers, grant proposals, review reports, response letters, technical reports, and policy-facing research writing.
+
+## Why this fork exists
+
+General writing-polish prompts often focus on removing surface-level template language: inflated wording, generic transitions, repetitive rhythm, rule-of-three structures, and chatbot artifacts. That is useful for ordinary writing, but it is not enough for academic work.
+
+Academic writing has stricter constraints:
+
+- empirical results must not be changed;
+- citations must not be fabricated;
+- LaTeX equations and BibTeX entries must be protected;
+- variables, coefficients, p-values, t-values, tables, and figures must remain intact;
+- hedging should be calibrated rather than mechanically deleted;
+- passive voice is sometimes appropriate, especially in methods and results sections;
+- Chinese academic and policy-facing writing has its own formulaic expressions that need careful handling.
+
+Humanizer-Academic therefore focuses on integrity-preserving academic revision.
+
+## Core capabilities
+
+### Academic naturalization
+
+The skill reduces common template-like academic patterns, including:
+
+- inflated significance claims;
+- vague attribution;
+- empty contrast such as “not only...but also...”;
+- generic rule-of-three phrasing;
+- overused abstract vocabulary such as “pivotal,” “landscape,” “underscore,” and “testament”;
+- over-hedging or under-hedging;
+- chatbot artifacts;
+- formulaic paragraph openers;
+- excessive smoothness and promotional tone.
+
+### Protected academic elements
+
+The skill is instructed not to alter:
+
+- LaTeX equations;
+- BibTeX entries;
+- citation keys such as `\citep{}`, `\citet{}`, `\cite{}`;
+- numerical results;
+- regression coefficients;
+- p-values, t-values, standard errors, confidence intervals;
+- variables such as `TFP`, `CCD`, `WND`, `EF`, `ROA`, `ENL`;
+- model names such as `DID`, `DDD`, `PSM`, `IV`, `FE`, `GMM`;
+- table and figure labels;
+- direct quotations;
+- official policy quotations;
+- code blocks.
+
+If a protected element appears suspicious, the skill should flag it rather than silently change it.
+
+### Academic revision modes
+
+| Mode | Use case |
+|---|---|
+| Light academic polish | Minor clarity and flow improvements |
+| Journal-style rewrite | Stronger theory, argument, and paragraph logic |
+| Reviewer-safe rewrite | Rebuttals, response letters, revision notes |
+| Chinese academic style | Chinese journal and policy-facing research writing |
+| Bilingual academic translation polish | Chinese-English academic translation and polishing |
+| LaTeX-safe revision | Manuscripts containing LaTeX, citations, equations, labels, and references |
+
+### Citation-aware revision
+
+The skill should not invent citations. If a claim requires support but no source is present, it marks the sentence with:
+
+```text
+[citation needed]
+```
+
+If a claim is too strong for the available evidence, it softens the language.
+
+Example:
+
+**Original**
+
+> Many studies prove that AI improves innovation.
+
+**Revised**
+
+> Prior research has linked AI adoption to changes in innovation processes, although the strength and direction of this relationship depend on data, task context, and organizational capabilities [citation needed].
+
+### Voice calibration
+
+If you provide samples of your own writing, the skill can approximate your academic voice by analyzing:
+
+- sentence length;
+- transition habits;
+- theoretical vocabulary;
+- citation density;
+- degree of hedging;
+- paragraph structure;
+- Chinese or English rhetorical style.
+
+It should preserve your scholarly rhythm without copying distinctive sentences or inventing private claims.
 
 ## Installation
 
 ### Claude Code
 
-Clone directly into Claude Code's skills directory:
-
 ```bash
 mkdir -p ~/.claude/skills
-git clone https://github.com/blader/humanizer.git ~/.claude/skills/humanizer
+git clone https://github.com/syq-cmdi/humanizer.git ~/.claude/skills/humanizer-academic
 ```
 
-Or copy the skill file manually if you already have this repo cloned:
+Or copy the skill file manually if you already have this repository cloned:
 
 ```bash
-mkdir -p ~/.claude/skills/humanizer
-cp SKILL.md ~/.claude/skills/humanizer/
+mkdir -p ~/.claude/skills/humanizer-academic
+cp SKILL.md ~/.claude/skills/humanizer-academic/
 ```
 
 ### OpenCode
-
-Clone directly into OpenCode's skills directory:
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-git clone https://github.com/blader/humanizer.git ~/.config/opencode/skills/humanizer
+git clone https://github.com/syq-cmdi/humanizer.git ~/.config/opencode/skills/humanizer-academic
 ```
 
-Or copy the skill file manually if you already have this repo cloned:
+Or copy the skill file manually:
 
 ```bash
-mkdir -p ~/.config/opencode/skills/humanizer
-cp SKILL.md ~/.config/opencode/skills/humanizer/
+mkdir -p ~/.config/opencode/skills/humanizer-academic
+cp SKILL.md ~/.config/opencode/skills/humanizer-academic/
 ```
 
-> **Note:** OpenCode also scans `~/.claude/skills/` for compatibility, so a single clone into `~/.claude/skills/humanizer/` works for both tools.
+OpenCode also scans `~/.claude/skills/` for compatibility, so one clone into `~/.claude/skills/humanizer-academic/` can work for both tools.
 
 ## Usage
 
-### Claude Code
+### Basic academic polish
 
-```
-/humanizer
+```text
+/humanizer-academic
 
-[paste your text here]
-```
-
-### OpenCode
-
-```
-/humanizer
-
-[paste your text here]
+Please polish the following paragraph in a journal-appropriate academic style:
+[paste text]
 ```
 
-Or ask the model to humanize text directly in either tool:
+### Reviewer-safe rewrite
 
-```
-Please humanize this text: [your text]
-```
+```text
+/humanizer-academic
 
-### Voice Calibration
-
-To match your personal writing style, provide a sample of your own writing:
-
-```
-/humanizer
-
-Here's a sample of my writing for voice matching:
-[paste 2-3 paragraphs of your own writing]
-
-Now humanize this text:
-[paste AI text to humanize]
+Mode: Reviewer-safe rewrite.
+Please revise the following response to reviewers. Keep the tone respectful, precise, and concise:
+[paste response]
 ```
 
-The skill will analyze your sentence rhythm, word choices, and quirks, then apply them to the rewrite instead of producing generic "clean" output.
+### LaTeX-safe revision
 
-## Overview
+```text
+/humanizer-academic
 
-Based on [Wikipedia's "Signs of AI writing"](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) guide, maintained by WikiProject AI Cleanup. This comprehensive guide comes from observations of thousands of instances of AI-generated text.
+Mode: LaTeX-safe revision.
+Please polish the prose but do not alter citations, equations, labels, references, or numerical results:
+[paste LaTeX text]
+```
 
-The skill also includes a final "obviously AI generated" audit pass and a second rewrite, to catch lingering AI-isms in the first draft.
+### Chinese academic style
 
-### Key Insight from Wikipedia
+```text
+/humanizer-academic
 
-> "LLMs use statistical algorithms to guess what should come next. The result tends toward the most statistically likely result that applies to the widest variety of cases."
+Mode: Chinese academic style.
+请压缩空泛表述，增强理论逻辑和机制链条，保持正式学术语气：
+[粘贴中文文本]
+```
 
-## 29 Patterns Detected (with Before/After Examples)
+### Voice calibration
 
-### Content Patterns
+```text
+/humanizer-academic
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 1 | **Significance inflation** | "marking a pivotal moment in the evolution of..." | "was established in 1989 to collect regional statistics" |
-| 2 | **Notability name-dropping** | "cited in NYT, BBC, FT, and The Hindu" | "In a 2024 NYT interview, she argued..." |
-| 3 | **Superficial -ing analyses** | "symbolizing... reflecting... showcasing..." | Remove or expand with actual sources |
-| 4 | **Promotional language** | "nestled within the breathtaking region" | "is a town in the Gonder region" |
-| 5 | **Vague attributions** | "Experts believe it plays a crucial role" | "according to a 2019 survey by..." |
-| 6 | **Formulaic challenges** | "Despite challenges... continues to thrive" | Specific facts about actual challenges |
+Here is a sample of my published writing for voice calibration:
+[paste 2-3 paragraphs]
 
-### Language Patterns
+Now revise the following text in a similar academic voice:
+[paste target text]
+```
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 7 | **AI vocabulary** | "Actually... additionally... testament... landscape... showcasing" | "also... remain common" |
-| 8 | **Copula avoidance** | "serves as... features... boasts" | "is... has" |
-| 9 | **Negative parallelisms / tailing negations** | "It's not just X, it's Y", "..., no guessing" | State the point directly |
-| 10 | **Rule of three** | "innovation, inspiration, and insights" | Use natural number of items |
-| 11 | **Synonym cycling** | "protagonist... main character... central figure... hero" | "protagonist" (repeat when clearest) |
-| 12 | **False ranges** | "from the Big Bang to dark matter" | List topics directly |
-| 13 | **Passive voice / subjectless fragments** | "No configuration file needed" | Name the actor when it helps clarity |
+## Before / after example
 
-### Style Patterns
+**Original**
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 14 | **Em dash overuse** | "institutions—not the people—yet this continues—" | Prefer commas or periods |
-| 15 | **Boldface overuse** | "**OKRs**, **KPIs**, **BMC**" | "OKRs, KPIs, BMC" |
-| 16 | **Inline-header lists** | "**Performance:** Performance improved" | Convert to prose |
-| 17 | **Title Case Headings** | "Strategic Negotiations And Partnerships" | "Strategic negotiations and partnerships" |
-| 18 | **Emojis** | "🚀 Launch Phase: 💡 Key Insight:" | Remove emojis |
-| 19 | **Curly quotes** | `said “the project”` | `said “the project”` |
-| 26 | **Hyphenated word pairs** | “cross-functional, data-driven, client-facing” | Drop hyphens on common word pairs |
-| 27 | **Persuasive authority tropes** | "At its core, what matters is..." | State the point directly |
-| 28 | **Signposting announcements** | "Let's dive in", "Here's what you need to know" | Start with the content |
-| 29 | **Fragmented headers** | "## Performance" + "Speed matters." | Let the heading do the work |
+> This study underscores the pivotal role of large language models in advancing natural language processing, marking a significant milestone in the evolving landscape of artificial intelligence. Previous studies have shown that LLMs greatly enhance research productivity and foster innovation across multiple domains.
 
-### Communication Patterns
+**Revised**
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 20 | **Chatbot artifacts** | "I hope this helps! Let me know if..." | Remove entirely |
-| 21 | **Cutoff disclaimers** | "While details are limited in available sources..." | Find sources or remove |
-| 22 | **Sycophantic tone** | "Great question! You're absolutely right!" | Respond directly |
+> This study examines how large language models affect natural language processing tasks and research workflows. Existing work links LLMs to gains in text generation, coding assistance, and information retrieval, but the size and reliability of these gains vary across task settings [citation needed].
 
-### Filler and Hedging
+**What changed**
 
-| # | Pattern | Before | After |
-|---|---------|--------|-------|
-| 23 | **Filler phrases** | "In order to", "Due to the fact that" | "To", "Because" |
-| 24 | **Excessive hedging** | "could potentially possibly" | "may" |
-| 25 | **Generic conclusions** | "The future looks bright" | Specific plans or facts |
+- Inflated claims were replaced with specific academic claims.
+- Vague attribution was marked for citation support.
+- Promotional language was removed.
+- The tone became more cautious and journal-appropriate.
 
-## Full Example
+## Recommended workflow
 
-**Before (AI-sounding):**
-> Great question! Here is an essay on this topic. I hope this helps!
->
-> AI-assisted coding serves as an enduring testament to the transformative potential of large language models, marking a pivotal moment in the evolution of software development. In today's rapidly evolving technological landscape, these groundbreaking tools—nestled at the intersection of research and practice—are reshaping how engineers ideate, iterate, and deliver, underscoring their vital role in modern workflows.
->
-> At its core, the value proposition is clear: streamlining processes, enhancing collaboration, and fostering alignment. It's not just about autocomplete; it's about unlocking creativity at scale, ensuring that organizations can remain agile while delivering seamless, intuitive, and powerful experiences to users. The tool serves as a catalyst. The assistant functions as a partner. The system stands as a foundation for innovation.
->
-> Industry observers have noted that adoption has accelerated from hobbyist experiments to enterprise-wide rollouts, from solo developers to cross-functional teams. The technology has been featured in The New York Times, Wired, and The Verge. Additionally, the ability to generate documentation, tests, and refactors showcases how AI can contribute to better outcomes, highlighting the intricate interplay between automation and human judgment.
->
-> - 💡 **Speed:** Code generation is significantly faster, reducing friction and empowering developers.
-> - 🚀 **Quality:** Output quality has been enhanced through improved training, contributing to higher standards.
-> - ✅ **Adoption:** Usage continues to grow, reflecting broader industry trends.
->
-> While specific details are limited based on available information, it could potentially be argued that these tools might have some positive effect. Despite challenges typical of emerging technologies—including hallucinations, bias, and accountability—the ecosystem continues to thrive. In order to fully realize this potential, teams must align with best practices.
->
-> In conclusion, the future looks bright. Exciting times lie ahead as we continue this journey toward excellence. Let me know if you’d like me to expand on any section!
+For long manuscripts, revise in sections rather than all at once:
 
-**After (Humanized):**
-> AI coding assistants can speed up the boring parts of the job. They're great at boilerplate: config files and the little glue code you don't want to write. They can also help you sketch a test, but you still have to read it.
->
-> The dangerous part is how confident the suggestions look. I've accepted code that compiled and passed lint, then discovered later it missed the point because I stopped paying attention.
->
-> If you treat it like autocomplete and review every line, it's useful. If you use it to avoid thinking, it will help you ship bugs faster.
->
-> The only real backstop is tests. Without them, you're mostly judging vibes.
+1. Abstract
+2. Introduction
+3. Theory and hypotheses
+4. Methods
+5. Results
+6. Discussion
+7. Response letter or cover letter
 
-## References
+For LaTeX manuscripts, use LaTeX-safe mode and review the output with `git diff` before replacing the original file.
 
-- [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) - Primary source
-- [WikiProject AI Cleanup](https://en.wikipedia.org/wiki/Wikipedia:WikiProject_AI_Cleanup) - Maintaining organization
+## Responsible use
 
-## Version History
+Responsible use means:
 
-- **2.5.1** - Added a passive-voice / subjectless-fragment rule, raising the total to 29 patterns
-- **2.5.0** - Added patterns for persuasive framing, signposting, and fragmented headers; expanded negative parallelisms to cover tailing negations; tightened wording around em dash overuse; fixed frontmatter wording to use "filler phrases"
-- **2.4.0** - Added voice calibration: match the user's personal writing style from samples
-- **2.3.0** - Added pattern #25: hyphenated word pair overuse
-- **2.2.0** - Added a final "obviously AI generated" audit + second-pass rewrite prompts
-- **2.1.1** - Fixed pattern #18 example (curly quotes vs straight quotes)
-- **2.1.0** - Added before/after examples for all 24 patterns
-- **2.0.0** - Complete rewrite based on raw Wikipedia article content
-- **1.0.0** - Initial release
+- the author remains accountable for all claims, data, citations, and interpretations;
+- AI-assisted revisions should not fabricate evidence;
+- journal or institutional AI-use disclosure rules should be followed;
+- the tool should improve clarity, accuracy, and scholarly quality.
+
+A concise disclosure statement, when needed, may look like:
+
+> The authors used AI-assisted language editing tools to improve clarity and grammar. All conceptual development, data analysis, interpretation, and final manuscript decisions were made and verified by the authors.
+
+## Project roadmap
+
+Potential future extensions:
+
+- CLI batch processing for `.tex`, `.md`, and `.docx` files;
+- LaTeX guard for citations, equations, labels, and references;
+- citation-risk scanner;
+- Chinese academic template-expression library;
+- author voice profile module;
+- Overleaf / VS Code integration;
+- reviewer-perspective audit checklist;
+- optional local-model support through Ollama.
+
+## Reference
+
+This project is adapted from general work on template-like AI-assisted writing patterns, including Wikipedia's `Signs of AI writing`, but is redesigned for academic and technical writing. Surface-level polishing is not enough for scholarly work; academic revision must protect evidence, structure, citations, and meaning.
+
+## Version history
+
+- **3.0.0** - Refocused as Humanizer-Academic; added integrity-preserving revision, protected academic elements, academic modes, LaTeX-safe revision, citation-aware rules, Chinese academic mode, and responsible-use framing.
+- **2.5.1** - Original upstream version: added a passive-voice / subjectless-fragment rule, raising the total to 29 patterns.
 
 ## License
 
