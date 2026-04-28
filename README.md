@@ -1,12 +1,25 @@
-# Humanizer-Academic
+# Academic-DeAI
 
-Humanizer-Academic is a Claude Code / OpenCode skill for revising academic drafts. It improves clarity, precision, scholarly tone, citation discipline, and authorial voice while preserving scientific meaning, technical terms, LaTeX equations, statistical results, references, and manuscript structure.
+Academic-DeAI（学术去AI味）is a Claude Code / OpenCode skill for responsible academic revision of AI-assisted drafts. It improves clarity, precision, scholarly tone, citation discipline, and authorial voice while preserving scientific meaning, technical terms, LaTeX equations, statistical results, references, and manuscript structure.
 
-It is designed for academic papers, grant proposals, review reports, response letters, technical reports, and policy-facing research writing.
+It is designed for academic papers, grant proposals, review reports, response letters, technical reports, Chinese academic writing, and energy top-journal manuscripts.
 
-## Why this fork exists
+## Positioning
 
-General writing-polish prompts often focus on removing surface-level template language: inflated wording, generic transitions, repetitive rhythm, rule-of-three structures, and chatbot artifacts. That is useful for ordinary writing, but it is not enough for academic work.
+Academic-DeAI is not a generic text humanizer. It is an academic writing quality-control skill.
+
+Its purpose is to help researchers convert rough AI-assisted drafts into more rigorous, verifiable, discipline-appropriate scholarly prose. It focuses on:
+
+- removing empty template-like expressions;
+- strengthening academic logic;
+- preserving facts, citations, equations, variables, and statistical results;
+- improving journal-facing style;
+- checking claims against evidence;
+- supporting transparent and responsible AI-assisted writing.
+
+## Why this project exists
+
+General writing-polish prompts often focus on surface language: inflated wording, generic transitions, repetitive rhythm, rule-of-three structures, and chatbot artifacts. That is useful for ordinary writing, but it is not enough for academic work.
 
 Academic writing has stricter constraints:
 
@@ -16,13 +29,14 @@ Academic writing has stricter constraints:
 - variables, coefficients, p-values, t-values, tables, and figures must remain intact;
 - hedging should be calibrated rather than mechanically deleted;
 - passive voice is sometimes appropriate, especially in methods and results sections;
-- Chinese academic and policy-facing writing has its own formulaic expressions that need careful handling.
+- Chinese academic and policy-facing writing has its own formulaic expressions that need careful handling;
+- energy and engineering manuscripts require thermodynamic consistency, system-boundary clarity, fair baselines, validation, and metric completeness.
 
-Humanizer-Academic therefore focuses on integrity-preserving academic revision.
+Academic-DeAI therefore focuses on integrity-preserving academic revision.
 
 ## Core capabilities
 
-### Academic naturalization
+### 1. Academic naturalization
 
 The skill reduces common template-like academic patterns, including:
 
@@ -36,7 +50,7 @@ The skill reduces common template-like academic patterns, including:
 - formulaic paragraph openers;
 - excessive smoothness and promotional tone.
 
-### Protected academic elements
+### 2. Protected academic elements
 
 The skill is instructed not to alter:
 
@@ -47,7 +61,8 @@ The skill is instructed not to alter:
 - regression coefficients;
 - p-values, t-values, standard errors, confidence intervals;
 - variables such as `TFP`, `CCD`, `WND`, `EF`, `ROA`, `ENL`;
-- model names such as `DID`, `DDD`, `PSM`, `IV`, `FE`, `GMM`;
+- energy and thermal symbols such as `COP`, `EER`, `PUE`, `ERE`, `WUE`, `Q`, `T_in`, `T_out`, `ΔT`, `Δp`, `Nu`, `Re`, `Pr`, `R_th`;
+- model names such as `DID`, `DDD`, `PSM`, `IV`, `FE`, `GMM`, `CFD`, `FEM`, `LCA`, `TEA`;
 - table and figure labels;
 - direct quotations;
 - official policy quotations;
@@ -55,7 +70,7 @@ The skill is instructed not to alter:
 
 If a protected element appears suspicious, the skill should flag it rather than silently change it.
 
-### Academic revision modes
+### 3. Academic revision modes
 
 | Mode | Use case |
 |---|---|
@@ -65,8 +80,10 @@ If a protected element appears suspicious, the skill should flag it rather than 
 | Chinese academic style | Chinese journal and policy-facing research writing |
 | Bilingual academic translation polish | Chinese-English academic translation and polishing |
 | LaTeX-safe revision | Manuscripts containing LaTeX, citations, equations, labels, and references |
+| Energy top-journal revision | Energy, Applied Energy, ECM, RSER, ATE, IJHMT and related outlets |
+| Data center liquid cooling and waste heat recovery | AI data centers, cold plates, CDU, immersion cooling, heat pumps, absorption systems, waste heat recovery |
 
-### Citation-aware revision
+### 4. Citation-aware revision
 
 The skill should not invent citations. If a claim requires support but no source is present, it marks the sentence with:
 
@@ -84,9 +101,22 @@ Example:
 
 **Revised**
 
-> Prior research has linked AI adoption to changes in innovation processes, although the strength and direction of this relationship depend on data, task context, and organizational capabilities [citation needed].
+> Prior research has linked AI adoption to changes in innovation processes, although the strength and direction of this relationship depends on data, task context, and organizational capabilities [citation needed].
 
-### Voice calibration
+### 5. Energy top-journal audit
+
+For energy manuscripts, Academic-DeAI checks not only language quality but also reviewer-sensitive technical issues:
+
+- system boundary: chip, component, rack, room, facility, district, or lifecycle level;
+- thermodynamic consistency: first-law versus second-law claims, temperature lift, source/sink/output temperature;
+- performance metrics: COP, EER, PUE, ERE, WUE, exergy efficiency, pressure drop, pumping power, heat recovery ratio;
+- baseline comparison: air cooling, conventional liquid cooling, straight-channel cold plates, heat pumps, existing absorption systems;
+- validation: experiment, literature comparison, mesh independence, uncertainty analysis;
+- sensitivity and robustness: flow rate, inlet temperature, heat flux, ambient condition, partial-load operation;
+- engineering applicability: manufacturability, fouling, corrosion, leakage, redundancy, maintenance, integration;
+- economic and environmental relevance: CAPEX, OPEX, payback period, carbon reduction, marginal emission factor.
+
+### 6. Voice calibration
 
 If you provide samples of your own writing, the skill can approximate your academic voice by analyzing:
 
@@ -106,38 +136,38 @@ It should preserve your scholarly rhythm without copying distinctive sentences o
 
 ```bash
 mkdir -p ~/.claude/skills
-git clone https://github.com/syq-cmdi/humanizer.git ~/.claude/skills/humanizer-academic
+git clone https://github.com/syq-cmdi/humanizer.git ~/.claude/skills/academic-deai
 ```
 
 Or copy the skill file manually if you already have this repository cloned:
 
 ```bash
-mkdir -p ~/.claude/skills/humanizer-academic
-cp SKILL.md ~/.claude/skills/humanizer-academic/
+mkdir -p ~/.claude/skills/academic-deai
+cp SKILL.md ~/.claude/skills/academic-deai/
 ```
 
 ### OpenCode
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-git clone https://github.com/syq-cmdi/humanizer.git ~/.config/opencode/skills/humanizer-academic
+git clone https://github.com/syq-cmdi/humanizer.git ~/.config/opencode/skills/academic-deai
 ```
 
 Or copy the skill file manually:
 
 ```bash
-mkdir -p ~/.config/opencode/skills/humanizer-academic
-cp SKILL.md ~/.config/opencode/skills/humanizer-academic/
+mkdir -p ~/.config/opencode/skills/academic-deai
+cp SKILL.md ~/.config/opencode/skills/academic-deai/
 ```
 
-OpenCode also scans `~/.claude/skills/` for compatibility, so one clone into `~/.claude/skills/humanizer-academic/` can work for both tools.
+OpenCode also scans `~/.claude/skills/` for compatibility, so one clone into `~/.claude/skills/academic-deai/` can work for both tools.
 
 ## Usage
 
 ### Basic academic polish
 
 ```text
-/humanizer-academic
+/academic-deai
 
 Please polish the following paragraph in a journal-appropriate academic style:
 [paste text]
@@ -146,7 +176,7 @@ Please polish the following paragraph in a journal-appropriate academic style:
 ### Reviewer-safe rewrite
 
 ```text
-/humanizer-academic
+/academic-deai
 
 Mode: Reviewer-safe rewrite.
 Please revise the following response to reviewers. Keep the tone respectful, precise, and concise:
@@ -156,7 +186,7 @@ Please revise the following response to reviewers. Keep the tone respectful, pre
 ### LaTeX-safe revision
 
 ```text
-/humanizer-academic
+/academic-deai
 
 Mode: LaTeX-safe revision.
 Please polish the prose but do not alter citations, equations, labels, references, or numerical results:
@@ -166,17 +196,38 @@ Please polish the prose but do not alter citations, equations, labels, reference
 ### Chinese academic style
 
 ```text
-/humanizer-academic
+/academic-deai
 
 Mode: Chinese academic style.
 请压缩空泛表述，增强理论逻辑和机制链条，保持正式学术语气：
 [粘贴中文文本]
 ```
 
+### Energy top-journal revision
+
+```text
+/academic-deai
+
+Mode: Energy top-journal revision.
+Target journal: Applied Energy.
+Please revise the following section. Check system boundary, thermodynamic consistency, performance metrics, baseline comparison, validation, and engineering applicability:
+[paste text]
+```
+
+### Data center liquid cooling and waste heat recovery
+
+```text
+/academic-deai
+
+Mode: Data center liquid cooling and waste heat recovery.
+Please revise this section for an energy top journal. Pay special attention to heat flux, coolant temperature, pressure drop, pumping power, PUE/ERE, exergy value, temperature lift, and useful heat demand:
+[paste text]
+```
+
 ### Voice calibration
 
 ```text
-/humanizer-academic
+/academic-deai
 
 Here is a sample of my published writing for voice calibration:
 [paste 2-3 paragraphs]
@@ -185,7 +236,9 @@ Now revise the following text in a similar academic voice:
 [paste target text]
 ```
 
-## Before / after example
+## Before / after examples
+
+### General academic writing
 
 **Original**
 
@@ -195,12 +248,25 @@ Now revise the following text in a similar academic voice:
 
 > This study examines how large language models affect natural language processing tasks and research workflows. Existing work links LLMs to gains in text generation, coding assistance, and information retrieval, but the size and reliability of these gains vary across task settings [citation needed].
 
-**What changed**
+### Energy manuscript writing
 
-- Inflated claims were replaced with specific academic claims.
-- Vague attribution was marked for citation support.
-- Promotional language was removed.
-- The tone became more cautious and journal-appropriate.
+**Original**
+
+> The proposed liquid cooling system significantly enhances heat dissipation and provides a promising solution for future AI data centers.
+
+**Revised**
+
+> The proposed liquid-cooling system reduces the maximum chip temperature by X K under a heat flux of Y W/cm² and an inlet coolant temperature of Z °C. Its system-level benefit depends on additional pumping power, CDU efficiency, and integration with facility-side heat rejection.
+
+### Waste heat recovery
+
+**Original**
+
+> Data center waste heat has great potential for sustainable energy utilization.
+
+**Revised**
+
+> Data center waste heat is abundant but usually available at low to medium temperature levels. Its practical recovery value depends on outlet coolant temperature, exergy content, distance to heat demand, and the match between hourly heat supply and local heating loads.
 
 ## Recommended workflow
 
@@ -208,13 +274,16 @@ For long manuscripts, revise in sections rather than all at once:
 
 1. Abstract
 2. Introduction
-3. Theory and hypotheses
-4. Methods
+3. Theory or literature review
+4. Methods / model / experiment
 5. Results
 6. Discussion
-7. Response letter or cover letter
+7. Conclusion
+8. Response letter or cover letter
 
 For LaTeX manuscripts, use LaTeX-safe mode and review the output with `git diff` before replacing the original file.
+
+For energy manuscripts, revise results and discussion with the energy top-journal checklist before revising the abstract and conclusion.
 
 ## Responsible use
 
@@ -235,19 +304,30 @@ Potential future extensions:
 
 - CLI batch processing for `.tex`, `.md`, and `.docx` files;
 - LaTeX guard for citations, equations, labels, and references;
+- numeric-diff checker for statistical and engineering values;
 - citation-risk scanner;
 - Chinese academic template-expression library;
 - author voice profile module;
+- energy top-journal profile library;
 - Overleaf / VS Code integration;
 - reviewer-perspective audit checklist;
 - optional local-model support through Ollama.
 
-## Reference
+## Suggested repository name
 
-This project is adapted from general work on template-like AI-assisted writing patterns, including Wikipedia's `Signs of AI writing`, but is redesigned for academic and technical writing. Surface-level polishing is not enough for scholarly work; academic revision must protect evidence, structure, citations, and meaning.
+Recommended GitHub repository names:
+
+- `academic-deai`
+- `academic-deai-skill`
+- `scholar-deai`
+- `scholarly-polish`
+- `academic-writing-qc`
+
+The current repository URL remains `https://github.com/syq-cmdi/humanizer` unless renamed manually in GitHub settings.
 
 ## Version history
 
+- **3.1.0** - Renamed project identity to Academic-DeAI; added Energy Top Journal mode and Data Center Liquid Cooling / Waste Heat Recovery mode.
 - **3.0.0** - Refocused as Humanizer-Academic; added integrity-preserving revision, protected academic elements, academic modes, LaTeX-safe revision, citation-aware rules, Chinese academic mode, and responsible-use framing.
 - **2.5.1** - Original upstream version: added a passive-voice / subjectless-fragment rule, raising the total to 29 patterns.
 
